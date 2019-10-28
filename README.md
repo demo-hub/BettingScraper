@@ -1,0 +1,2 @@
+# BettingScraper
+Portugal betting scraper
