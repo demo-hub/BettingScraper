@@ -31,6 +31,8 @@
 
 <script>
   import SystemInformation from './LandingPage/SystemInformation'
+  import cheerio from 'cheerio'
+  import fetch from 'node-fetch'
 
   export default {
     name: 'landing-page',
@@ -39,6 +41,23 @@
       open (link) {
         this.$electron.shell.openExternal(link)
       }
+    },
+    async created () {
+      fetch('https://www.estorilsolcasinos.pt/apostas/favoritos')
+        .then(res => res.text())
+        .then(body => {
+          console.log(body)
+          const $ = cheerio.load(body)
+          const allTitles = $('.league-item-block')
+            .get()
+            .map(repo => {
+              console.log('repo')
+              const $repo = $(repo)
+              const title = $repo.find('h3').text()
+              return title
+            })
+          console.log(allTitles)
+        })
     }
   }
 </script>
